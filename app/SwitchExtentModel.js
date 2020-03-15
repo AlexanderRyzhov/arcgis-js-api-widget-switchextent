@@ -25,6 +25,9 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         __extends(SwitchExtentModel, _super);
         function SwitchExtentModel(properties) {
             var _this = _super.call(this) || this;
+            //properties for the workflow
+            _this.arrayPreviousExtents = [];
+            _this.arrayNextExtents = [];
             //--------------------------------------------------------------------
             //
             //  Methods use for watching
@@ -38,8 +41,8 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //activate watching view
             _this.handleMoveView = function () {
                 //initialize array
-                _this.arrayPreviousExtents = [];
-                _this.arrayNextExtents = [];
+                //this.arrayPreviousExtents = [];
+                //this.arrayNextExtents = [];
                 //when view ready
                 _this.view.when()
                     .then(function (_) { return _this._noChange(); })

@@ -63,7 +63,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //  Private methods
             //
             //-------------------------------------------------------------------
-            _this._handleMoveView = function () { return _this.viewModel.handleMoveView(); };
+            //    private _handleMoveView = () => this.viewModel.handleMoveView();
             _this._onPreviousClick = function () { return _this.viewModel.onPreviousClick(); };
             _this._onNextClick = function () { return _this.viewModel.onNextClick(); };
             return _this;
@@ -74,7 +74,8 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //
         //-------------------------------------------------------------------
         SwitchExtent.prototype.postInitialize = function () {
-            this._handleMoveView();
+            //this._handleMoveView();
+            this.viewModel.handleMoveView();
         };
         SwitchExtent.prototype.render = function () {
             var classes = this.classes(CSS.base);

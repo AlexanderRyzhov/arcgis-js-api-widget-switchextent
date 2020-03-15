@@ -99,7 +99,9 @@ class SwitchExtent extends declared(Widget) {
     //-------------------------------------------------------------------
 
     postInitialize(): void {
-        this._handleMoveView();
+        //this._handleMoveView();
+
+        this.viewModel.handleMoveView();
     }
 
     render() {
@@ -133,7 +135,8 @@ class SwitchExtent extends declared(Widget) {
     //  Private methods
     //
     //-------------------------------------------------------------------
-    private _handleMoveView = () => this.viewModel.handleMoveView();
+
+//    private _handleMoveView = () => this.viewModel.handleMoveView();
     private _onPreviousClick = () => this.viewModel.onPreviousClick();
     private _onNextClick = () => this.viewModel.onNextClick();
 

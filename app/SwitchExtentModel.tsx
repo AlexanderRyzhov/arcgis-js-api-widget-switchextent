@@ -30,6 +30,7 @@ class SwitchExtentModel extends declared(Accessor) {
 
     constructor(properties?: SwitchExtentModelProperties) {
         super();
+
     }
 
 
@@ -60,10 +61,10 @@ class SwitchExtentModel extends declared(Accessor) {
 
     //properties for the workflow
     @property()
-    arrayPreviousExtents: Array<Extent>;
+    arrayPreviousExtents: Array<Extent> = [];
 
     @property()
-    arrayNextExtents: Array<Extent>;
+    arrayNextExtents: Array<Extent> = [];
 
     @property()
     prevExtent: Extent | null;
@@ -89,8 +90,8 @@ class SwitchExtentModel extends declared(Accessor) {
     //activate watching view
     handleMoveView = (): void => {
         //initialize array
-        this.arrayPreviousExtents = [];
-        this.arrayNextExtents = [];
+        //this.arrayPreviousExtents = [];
+        //this.arrayNextExtents = [];
 
         //when view ready
         this.view.when()
