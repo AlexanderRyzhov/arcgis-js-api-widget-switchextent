@@ -50,11 +50,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         function SwitchExtent(properties) {
             var _this = _super.call(this) || this;
             //----------------------------------
-            //  state of buttons
-            //----------------------------------
-            _this.isPreviousDisabled = true;
-            _this.isNextDisabled = true;
-            //----------------------------------
             //  view model
             //----------------------------------
             _this.viewModel = new SwitchExtentModel_1.default();
@@ -63,7 +58,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //  Private methods
             //
             //-------------------------------------------------------------------
-            //    private _handleMoveView = () => this.viewModel.handleMoveView();
             _this._onPreviousClick = function () { return _this.viewModel.onPreviousClick(); };
             _this._onNextClick = function () { return _this.viewModel.onNextClick(); };
             return _this;
@@ -74,8 +68,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //
         //-------------------------------------------------------------------
         SwitchExtent.prototype.postInitialize = function () {
-            //this._handleMoveView();
-            this.viewModel.handleMoveView();
+            this.viewModel.initializeHandlers();
         };
         SwitchExtent.prototype.render = function () {
             var classes = this.classes(CSS.base);

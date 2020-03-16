@@ -77,11 +77,11 @@ class SwitchExtent extends declared(Widget) {
 
     @aliasOf("viewModel.isPreviousDisabled")
     @renderable()
-    isPreviousDisabled: boolean = true;
+    isPreviousDisabled: boolean;
 
     @aliasOf("viewModel.isNextDisabled")
     @renderable()
-    isNextDisabled: boolean = true;
+    isNextDisabled: boolean;
 
     //----------------------------------
     //  view model
@@ -99,9 +99,7 @@ class SwitchExtent extends declared(Widget) {
     //-------------------------------------------------------------------
 
     postInitialize(): void {
-        //this._handleMoveView();
-
-        this.viewModel.handleMoveView();
+        this.viewModel.initializeHandlers();
     }
 
     render() {
@@ -136,7 +134,6 @@ class SwitchExtent extends declared(Widget) {
     //
     //-------------------------------------------------------------------
 
-//    private _handleMoveView = () => this.viewModel.handleMoveView();
     private _onPreviousClick = () => this.viewModel.onPreviousClick();
     private _onNextClick = () => this.viewModel.onNextClick();
 
