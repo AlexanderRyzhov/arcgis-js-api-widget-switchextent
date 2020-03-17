@@ -16,12 +16,9 @@ interface SwitchExtentModelProperties {
     isPreviousDisabled: boolean,
     isNextDisabled: boolean,
     stationaryWatching: any,
-    dragWatching: any,
     arrayPreviousExtents: Array<Extent>,
     arrayNextExtents: Array<Extent>,
-    prevExtent: Extent | null,
-    lastArrayExtentString: string,
-    currentExtentString: string
+    prevExtent: Extent | null
 }
 
 
@@ -30,7 +27,6 @@ class SwitchExtentModel extends declared(Accessor) {
 
     constructor(properties?: SwitchExtentModelProperties) {
         super();
-
     }
 
 
@@ -72,19 +68,19 @@ class SwitchExtentModel extends declared(Accessor) {
     //
     //--------------------------------------------------------------------
 
-    initializeHandlers = (): void => {
-        //when view ready
+    initializeWatching = (): void => {
         console.log('initializeHandlers');
-        this.view.when().then(_ => this._activateExtentWatching());
+        this.view.when()
+                .then(_ => this._activateExtentWatching());
     }
 
     // variable activate & deactivate event
     private _activateExtentWatching = () => {
         console.log('_activateExtentWatching');
-        this.stationaryWatching = watchUtils.whenTrue(this.view, "stationary", this._onMoveEnd);
+        this.stationaryWatching = watchUtils.whenTrue(this.view, "stationary", this._onExtentChange);
     }
 
-    //private _deactivateExtentWatching = () => this.stationaryWatching.remove();
+    private _deactivateExtentWatching = () => this.stationaryWatching.remove();
 
     //--------------------------------------------------------------------
     //
@@ -92,26 +88,20 @@ class SwitchExtentModel extends declared(Accessor) {
     //
     //--------------------------------------------------------------------
 
-    //handle click and set previous extent is array length > 0
+    //handle click and set previous extent 
     onPreviousClick = (): void => {
         console.log('onPreviousClick');
-        //push current view to the next array
-        this.arrayNextExtents.push(this.view.extent);
-        this._setPreviousExtent();        
-    }
-
-    private _setPreviousExtent = (): void => {
-        console.log('_setPreviousExtent');
         this.arrayNextExtents.unshift(this.view.extent);
         this.view.extent = this.arrayPreviousExtents.pop();
-        this._calcButtonsDisabled()
+        this._calcButtonsState()
     }
 
     //handle click and set previous extent is array length > 0
     onNextClick = (): void => {
         console.log('onNextClick');
+        this.arrayPreviousExtents.push(this.view.extent);
         this.view.extent = this.arrayNextExtents.shift();
-        
+        this._calcButtonsState()
     }
 
     //--------------------------------------------------------------------
@@ -121,29 +111,28 @@ class SwitchExtentModel extends declared(Accessor) {
     //--------------------------------------------------------------------
 
     //when view stationnary execute push extent
-    private _onMoveEnd = (event: boolean): void => {
-        console.log('_onMoveEnd');
-        this.prevExtent ? this._changeExtentHandler() : this.prevExtent = this.view.extent;
+    private _onExtentChange = (event: boolean): void => {
+        console.log('_onExtentChange');
+        this.prevExtent ? this._extentChangeHandler() : this.prevExtent = this.view.extent;
     }
 
-    //when view stationnary execute push extent
 
-    private _emptyNextArray = (): void => {
-        console.log('_emptyNextArray');
-        this.arrayNextExtents = [];
-    }
-
-    private _changeExtentHandler = (): void => {
-        console.log('_changeExtentHandler');
-        this.arrayPreviousExtents.push(this.prevExtent);
+    private _extentChangeHandler = (): void => {
+        //console.log('_extentChangeHandler');
+        if (this.arrayPreviousExtents.length < this.count ) {            
+            this.arrayPreviousExtents.push(this.prevExtent);
+        } else {            
+            this.arrayPreviousExtents.shift();
+            this.arrayPreviousExtents.push(this.prevExtent);
+        }        
         this.prevExtent = this.view.extent;
-        this._emptyNextArray()
-        this._calcButtonsDisabled();
+        this.arrayNextExtents = [];
+        this._calcButtonsState();
     }
 
 
-    private _calcButtonsDisabled = (): void => {
-        console.log('_calcButtonsDisabled');
+    private _calcButtonsState = (): void => {
+        //console.log('_calcButtonsDisabled');
         this.arrayNextExtents.length === 0 ? this.isNextDisabled = true : this.isNextDisabled = false;
         this.arrayPreviousExtents.length === 0 ? this.isPreviousDisabled = true : this.isPreviousDisabled = false;
     }

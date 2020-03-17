@@ -36,39 +36,35 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //  Methods use for watching
             //
             //--------------------------------------------------------------------
-            _this.initializeHandlers = function () {
-                //when view ready
+            _this.initializeWatching = function () {
                 console.log('initializeHandlers');
-                _this.view.when().then(function (_) { return _this._activateExtentWatching(); });
+                _this.view.when()
+                    .then(function (_) { return _this._activateExtentWatching(); });
             };
             // variable activate & deactivate event
             _this._activateExtentWatching = function () {
                 console.log('_activateExtentWatching');
-                _this.stationaryWatching = watchUtils.whenTrue(_this.view, "stationary", _this._onMoveEnd);
+                _this.stationaryWatching = watchUtils.whenTrue(_this.view, "stationary", _this._onExtentChange);
             };
-            //private _deactivateExtentWatching = () => this.stationaryWatching.remove();
+            _this._deactivateExtentWatching = function () { return _this.stationaryWatching.remove(); };
             //--------------------------------------------------------------------
             //
             //  Clicks action
             //
             //--------------------------------------------------------------------
-            //handle click and set previous extent is array length > 0
+            //handle click and set previous extent 
             _this.onPreviousClick = function () {
                 console.log('onPreviousClick');
-                //push current view to the next array
-                _this.arrayNextExtents.push(_this.view.extent);
-                _this._setPreviousExtent();
-            };
-            _this._setPreviousExtent = function () {
-                console.log('_setPreviousExtent');
                 _this.arrayNextExtents.unshift(_this.view.extent);
                 _this.view.extent = _this.arrayPreviousExtents.pop();
-                _this._calcButtonsDisabled();
+                _this._calcButtonsState();
             };
             //handle click and set previous extent is array length > 0
             _this.onNextClick = function () {
                 console.log('onNextClick');
+                _this.arrayPreviousExtents.push(_this.view.extent);
                 _this.view.extent = _this.arrayNextExtents.shift();
+                _this._calcButtonsState();
             };
             //--------------------------------------------------------------------
             //
@@ -76,24 +72,25 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //
             //--------------------------------------------------------------------
             //when view stationnary execute push extent
-            _this._onMoveEnd = function (event) {
-                console.log('_onMoveEnd');
-                _this.prevExtent ? _this._changeExtentHandler() : _this.prevExtent = _this.view.extent;
+            _this._onExtentChange = function (event) {
+                console.log('_onExtentChange');
+                _this.prevExtent ? _this._extentChangeHandler() : _this.prevExtent = _this.view.extent;
             };
-            //when view stationnary execute push extent
-            _this._emptyNextArray = function () {
-                console.log('_emptyNextArray');
-                _this.arrayNextExtents = [];
-            };
-            _this._changeExtentHandler = function () {
-                console.log('_changeExtentHandler');
-                _this.arrayPreviousExtents.push(_this.prevExtent);
+            _this._extentChangeHandler = function () {
+                //console.log('_extentChangeHandler');
+                if (_this.arrayPreviousExtents.length < _this.count) {
+                    _this.arrayPreviousExtents.push(_this.prevExtent);
+                }
+                else {
+                    _this.arrayPreviousExtents.shift();
+                    _this.arrayPreviousExtents.push(_this.prevExtent);
+                }
                 _this.prevExtent = _this.view.extent;
-                _this._emptyNextArray();
-                _this._calcButtonsDisabled();
+                _this.arrayNextExtents = [];
+                _this._calcButtonsState();
             };
-            _this._calcButtonsDisabled = function () {
-                console.log('_calcButtonsDisabled');
+            _this._calcButtonsState = function () {
+                //console.log('_calcButtonsDisabled');
                 _this.arrayNextExtents.length === 0 ? _this.isNextDisabled = true : _this.isNextDisabled = false;
                 _this.arrayPreviousExtents.length === 0 ? _this.isPreviousDisabled = true : _this.isPreviousDisabled = false;
             };

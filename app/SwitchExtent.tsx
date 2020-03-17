@@ -99,7 +99,7 @@ class SwitchExtent extends declared(Widget) {
     //-------------------------------------------------------------------
 
     postInitialize(): void {
-        this.viewModel.initializeHandlers();
+        this.viewModel.initializeWatching();
     }
 
     render() {

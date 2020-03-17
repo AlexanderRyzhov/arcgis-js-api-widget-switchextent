@@ -68,7 +68,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //
         //-------------------------------------------------------------------
         SwitchExtent.prototype.postInitialize = function () {
-            this.viewModel.initializeHandlers();
+            this.viewModel.initializeWatching();
         };
         SwitchExtent.prototype.render = function () {
             var classes = this.classes(CSS.base);
