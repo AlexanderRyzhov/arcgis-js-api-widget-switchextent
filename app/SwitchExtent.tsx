@@ -53,7 +53,6 @@ class SwitchExtent extends declared(Widget) {
         super();
     }
 
-
     //--------------------------------------------------------------------
     //
     //  Properties
@@ -71,6 +70,7 @@ class SwitchExtent extends declared(Widget) {
     @aliasOf("viewModel.count")
     count: number;
 
+
     //----------------------------------
     //  state of buttons
     //----------------------------------
@@ -82,6 +82,15 @@ class SwitchExtent extends declared(Widget) {
     @aliasOf("viewModel.isNextDisabled")
     @renderable()
     isNextDisabled: boolean;
+
+    @aliasOf("viewModel.prevCount")
+    @renderable()
+    prevCount: number;
+
+    @aliasOf("viewModel.nextCount")
+    @renderable()
+    nextCount: number;
+
 
     //----------------------------------
     //  view model
@@ -111,20 +120,19 @@ class SwitchExtent extends declared(Widget) {
         const classPrevious = this.classes(
             CSS.switchPrevious,
             CSS.arrowLeftIcon,
-            this.isPreviousDisabled ? CSS.buttonDisabled : null
+            !this.prevCount ? CSS.buttonDisabled : null
         );
-
 
         const classNext = this.classes(
             CSS.switchNext,
             CSS.arrowRightIcon,
-            this.isNextDisabled ? CSS.buttonDisabled : null
+            !this.nextCount ? CSS.buttonDisabled : null
         );
 
         return (
             <div class={classes} >
-                <button onclick={this._onPreviousClick} class={classPrevious} />
-                <button onclick={this._onNextClick} class={classNext} />
+                <button onclick={this._onPreviousClick} class={classPrevious}>{this.prevCount}</button>
+        <button onclick={this._onNextClick} class={classNext}>{this.nextCount}</button>
             </div>
         );
     }

@@ -13,8 +13,6 @@ import watchUtils = require('esri/core/watchUtils');
 interface SwitchExtentModelProperties {
     view: MapView | null,
     count: number,
-    isPreviousDisabled: boolean,
-    isNextDisabled: boolean,
     stationaryWatching: any,
     arrayPreviousExtents: Array<Extent>,
     arrayNextExtents: Array<Extent>,
@@ -28,7 +26,6 @@ class SwitchExtentModel extends declared(Accessor) {
     constructor(properties?: SwitchExtentModelProperties) {
         super();
     }
-
 
     //--------------------------------------------------------------------
     //
@@ -44,12 +41,6 @@ class SwitchExtentModel extends declared(Accessor) {
     count: number;
 
     @property()
-    isPreviousDisabled: boolean = true;
-
-    @property()
-    isNextDisabled: boolean = true;
-
-    @property()
     stationaryWatching: any;
 
     //properties for the workflow
@@ -57,7 +48,13 @@ class SwitchExtentModel extends declared(Accessor) {
     arrayPreviousExtents: Array<Extent> = [];
 
     @property()
+    prevCount: number = 0;
+
+    @property()
     arrayNextExtents: Array<Extent> = [];
+
+    @property()
+    nextCount: number = 0;
 
     @property()
     prevExtent: Extent | null = null;
@@ -133,8 +130,8 @@ class SwitchExtentModel extends declared(Accessor) {
 
     private _calcButtonsState = (): void => {
         //console.log('_calcButtonsDisabled');
-        this.arrayNextExtents.length === 0 ? this.isNextDisabled = true : this.isNextDisabled = false;
-        this.arrayPreviousExtents.length === 0 ? this.isPreviousDisabled = true : this.isPreviousDisabled = false;
+        this.prevCount = this.arrayPreviousExtents.length;
+        this.nextCount = this.arrayNextExtents.length;
     }
 
 }

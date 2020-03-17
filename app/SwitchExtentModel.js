@@ -25,11 +25,11 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         __extends(SwitchExtentModel, _super);
         function SwitchExtentModel(properties) {
             var _this = _super.call(this) || this;
-            _this.isPreviousDisabled = true;
-            _this.isNextDisabled = true;
             //properties for the workflow
             _this.arrayPreviousExtents = [];
+            _this.prevCount = 0;
             _this.arrayNextExtents = [];
+            _this.nextCount = 0;
             _this.prevExtent = null;
             //--------------------------------------------------------------------
             //
@@ -91,8 +91,8 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             };
             _this._calcButtonsState = function () {
                 //console.log('_calcButtonsDisabled');
-                _this.arrayNextExtents.length === 0 ? _this.isNextDisabled = true : _this.isNextDisabled = false;
-                _this.arrayPreviousExtents.length === 0 ? _this.isPreviousDisabled = true : _this.isPreviousDisabled = false;
+                _this.prevCount = _this.arrayPreviousExtents.length;
+                _this.nextCount = _this.arrayNextExtents.length;
             };
             return _this;
         }
@@ -104,19 +104,19 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         ], SwitchExtentModel.prototype, "count", void 0);
         __decorate([
             decorators_1.property()
-        ], SwitchExtentModel.prototype, "isPreviousDisabled", void 0);
-        __decorate([
-            decorators_1.property()
-        ], SwitchExtentModel.prototype, "isNextDisabled", void 0);
-        __decorate([
-            decorators_1.property()
         ], SwitchExtentModel.prototype, "stationaryWatching", void 0);
         __decorate([
             decorators_1.property()
         ], SwitchExtentModel.prototype, "arrayPreviousExtents", void 0);
         __decorate([
             decorators_1.property()
+        ], SwitchExtentModel.prototype, "prevCount", void 0);
+        __decorate([
+            decorators_1.property()
         ], SwitchExtentModel.prototype, "arrayNextExtents", void 0);
+        __decorate([
+            decorators_1.property()
+        ], SwitchExtentModel.prototype, "nextCount", void 0);
         __decorate([
             decorators_1.property()
         ], SwitchExtentModel.prototype, "prevExtent", void 0);

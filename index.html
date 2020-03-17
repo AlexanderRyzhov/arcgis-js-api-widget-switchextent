@@ -64,13 +64,19 @@
           center: [-100.33, 43.69],
           zoom: 4
         });
+        /*
         view.when(function() {
             switchExtent = new SwitchExtent({
             view: view,
             count: 10
           });
+          */
+          switchExtent = new SwitchExtent({
+            view: view,
+            count: 10
+          });
           view.ui.add(switchExtent, "top-right");
-        });
+        //});
       });
     </script>
   </head>

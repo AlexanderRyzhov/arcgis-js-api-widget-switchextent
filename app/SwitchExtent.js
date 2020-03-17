@@ -72,11 +72,11 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         };
         SwitchExtent.prototype.render = function () {
             var classes = this.classes(CSS.base);
-            var classPrevious = this.classes(CSS.switchPrevious, CSS.arrowLeftIcon, this.isPreviousDisabled ? CSS.buttonDisabled : null);
-            var classNext = this.classes(CSS.switchNext, CSS.arrowRightIcon, this.isNextDisabled ? CSS.buttonDisabled : null);
+            var classPrevious = this.classes(CSS.switchPrevious, CSS.arrowLeftIcon, !this.prevCount ? CSS.buttonDisabled : null);
+            var classNext = this.classes(CSS.switchNext, CSS.arrowRightIcon, !this.nextCount ? CSS.buttonDisabled : null);
             return (widget_1.tsx("div", { class: classes },
-                widget_1.tsx("button", { onclick: this._onPreviousClick, class: classPrevious }),
-                widget_1.tsx("button", { onclick: this._onNextClick, class: classNext })));
+                widget_1.tsx("button", { onclick: this._onPreviousClick, class: classPrevious }, this.prevCount),
+                widget_1.tsx("button", { onclick: this._onNextClick, class: classNext }, this.nextCount)));
         };
         __decorate([
             decorators_1.aliasOf("viewModel.view")
@@ -92,6 +92,14 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             decorators_1.aliasOf("viewModel.isNextDisabled"),
             widget_1.renderable()
         ], SwitchExtent.prototype, "isNextDisabled", void 0);
+        __decorate([
+            decorators_1.aliasOf("viewModel.prevCount"),
+            widget_1.renderable()
+        ], SwitchExtent.prototype, "prevCount", void 0);
+        __decorate([
+            decorators_1.aliasOf("viewModel.nextCount"),
+            widget_1.renderable()
+        ], SwitchExtent.prototype, "nextCount", void 0);
         __decorate([
             decorators_1.property({
                 type: SwitchExtentModel_1.default
